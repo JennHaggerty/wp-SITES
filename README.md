@@ -1,4 +1,4 @@
-J's Sites
+wp-SITES
 ---
 
 This project is structured to spin up as many docker wordpress instances as needed on a single host. 
@@ -23,12 +23,13 @@ The project structure is as follows:
 	This is the directory containing each websites in its own directory. This can be backed up as an entire directory for your sites, but the more sane approach is to backup only what you need such as: plugins, images, theme, posts, pages, etc.
 
 To start the sites, run: 
-`docker-compose -f sites.yml up -d --no-recreate`
+- `docker-compose -f sites.yml up -d --no-recreate`
 
 If there are any problems and you want to restart everything, run:
-`docker rm -f companion; docker-compose -f sites.yml down; docker run -d --name=companion -e "DEBUG=true" -v /root/certs/:/etc/nginx/certs:rw --volumes-from nginx-reverse-proxy -v /var/run/docker.sock:/var/run/docker.sock:ro jrcs/letsencrypt-nginx-proxy-companion ; docker-compose -f sites.yml up -d --no-recreate; docker logs -f companion`
+- `docker rm -f companion; docker-compose -f sites.yml down; docker run -d --name=companion -e "DEBUG=true" -v /root/certs/:/etc/nginx/certs:rw --volumes-from nginx-reverse-proxy -v /var/run/docker.sock:/var/run/docker.sock:ro jrcs/letsencrypt-nginx-proxy-companion ; docker-compose -f sites.yml up -d --no-recreate; docker logs -f companion`
 
 To backup mysql, run this command:
-`docker exec some-mariadb sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /some/path/on/your/host/all-databases.sql`
+- `docker exec some-mariadb sh -c 'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' > /some/path/on/your/host/all-databases.sql`
+
 To restore a backup of mysql, run this command:
-`docker exec -i my-new-database mysql -uroot -p"MYSQL_ROOT_PASSWORD" --force < all-database.sql`
+- `docker exec -i my-new-database mysql -uroot -p"MYSQL_ROOT_PASSWORD" --force < all-database.sql`
