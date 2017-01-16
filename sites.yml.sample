@@ -1,0 +1,25 @@
+# REF: http://donalfarrell.com/2016/09/18/DigitalOcean-Docker-Multi-Wordpress.html
+
+mysql:
+  container_name: mysql
+  image: mariadb
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: 'some_password'
+  volumes:
+    - /path/to/your/sites/mysql/data:/var/lib/mysql:rw
+
+wp-SITE1:
+  container_name: wp-SITE1
+  image: wordpress
+  restart: always
+  links:
+    - mysql:mysql
+  environment:
+    WORDPRESS_DB_NAME: wp_SITE1
+    WORDPRESS_DB_PASSWORD: 'some_password'
+    VIRTUAL_HOST: www.SITE1.com, SITE1.com
+    LETSENCRYPT_HOST: www.SITE1.com, SITE1.com
+    LETSENCRYPT_EMAIL: admin@localhost.com
+  volumes:
+    - /path/to/your/sites/www/wp-SITE1/:/var/www/html:rw
